@@ -2,6 +2,9 @@
 
 package lesson1
 
+import java.io.File
+import java.io.IOException
+
 /**
  * Сортировка времён
  *
@@ -31,7 +34,34 @@ package lesson1
  * В случае обнаружения неверного формата файла бросить любое исключение.
  */
 fun sortTimes(inputName: String, outputName: String) {
-    TODO()
+
+    /**
+     * T = O(n log n)
+     * R = O(m), где m - количество моментов времени
+     */
+
+    if (!(inputName).endsWith(".txt")) throw IOException("Неверный формат файла")
+
+    val lines = File(inputName).readLines()
+    val writer = File(outputName).bufferedWriter()
+
+    val linesInt = mutableListOf<Int>()
+
+    for (i in 0 until lines.size) {
+        val elements = lines[i].split(":")
+        linesInt.add(elements[0].toInt()*3600 + elements[1].toInt()*60 + elements[2].toInt())
+    }
+
+    val linesIntArray = linesInt.toIntArray()
+
+    mergeSort(linesIntArray)
+
+    for (i in 0 until linesInt.size) {
+        writer.write(String.format("%02d:%02d:%02d", linesIntArray[i]/3600, linesIntArray[i]%3600/60, linesIntArray[i]%60))
+        writer.newLine()
+    }
+
+    writer.close()
 }
 
 /**
@@ -94,9 +124,41 @@ fun sortAddresses(inputName: String, outputName: String) {
  * 99.5
  * 121.3
  */
+
 fun sortTemperatures(inputName: String, outputName: String) {
-    TODO()
+
+    /**
+     * T = O(n log n)
+     * R = O(m), где m - количество измерений температуры
+     */
+
+    val lines = File(inputName).readLines()
+    val writer = File(outputName).bufferedWriter()
+
+    val listOfValues = mutableListOf<Int>()
+
+
+    for (i in 0 until lines.size) {
+        listOfValues.add((lines[i].toDouble() * 10).toInt())
+    }
+
+    for (i in 0 until lines.size) {
+        if (listOfValues[i] < -2730 || listOfValues[i] > 5000)
+            throw IOException("Incorrect value of temperature")
+    }
+
+    val arrayOfValues = listOfValues.toIntArray()
+
+    mergeSort(arrayOfValues)
+
+    for (i in 0 until arrayOfValues.size) {
+        writer.write((arrayOfValues[i].toDouble()/10).toString())
+        writer.newLine()
+    }
+
+    writer.close()
 }
+
 
 /**
  * Сортировка последовательности

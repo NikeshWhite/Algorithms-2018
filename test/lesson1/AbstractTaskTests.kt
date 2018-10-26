@@ -1,9 +1,13 @@
 package lesson1
 
+import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.fail
 import java.io.BufferedWriter
 import java.io.File
+import java.io.IOException
 import java.util.*
 import kotlin.math.abs
+import kotlin.test.assertEquals
 
 abstract class AbstractTaskTests : AbstractFileTests() {
 
@@ -28,6 +32,19 @@ abstract class AbstractTaskTests : AbstractFileTests() {
             assertFileContent("temp.txt",
                     """
                      00:00:00
+                """.trimIndent()
+            )
+        } finally {
+            File("temp.txt").delete()
+        }
+        try {
+            sortTimes("input/time_in2_custom.txt", "temp.txt")
+            assertFileContent("temp.txt",
+                    """
+                     00:00:00
+                     23:59:59
+                     23:59:59
+                     23:59:59
                 """.trimIndent()
             )
         } finally {
@@ -99,6 +116,12 @@ abstract class AbstractTaskTests : AbstractFileTests() {
             File("temp.txt").delete()
         }
 
+        try {
+            sortTemperatures("input/temp_in1_custom.txt", "temp.txt")
+        } catch (e: IOException) {
+            assertEquals("java.io.IOException: Incorrect value of temperature", e.toString())
+        }
+
         fun testGeneratedTemperatures(size: Int) {
             try {
                 generateTemperatures(size)
@@ -113,7 +136,7 @@ abstract class AbstractTaskTests : AbstractFileTests() {
             }
         }
         testGeneratedTemperatures(10)
-        testGeneratedTemperatures(5000)
+        testGeneratedTemperatures(1000)
     }
 
     protected fun sortSequence(sortSequence: (String, String) -> Unit) {
