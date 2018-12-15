@@ -14,7 +14,46 @@ package lesson6
  * При сравнении подстрок, регистр символов *имеет* значение.
  */
 fun longestCommonSubSequence(first: String, second: String): String {
-    TODO()
+
+    /**
+     * T = O(mn), где m и n - строки и столбцы построенной матрицы
+     * R = O(mn), где m и n - строки и столбцы построенной матрицы
+     */
+
+    var answer = ""
+
+    var m = first.length
+    var n = second.length
+
+    val matrix: Array<Array<Int>> = Array(m+1) { Array(n+1) { 0 } }
+
+    for (i in 1..m) {
+
+        for (j in 1..n) {
+
+            if (first[i-1] == second[j-1]) {
+
+                matrix[i][j] = matrix[i-1][j-1] + 1
+            }
+            else {
+                matrix[i][j] = Math.max(matrix[i-1][j], matrix[i][j-1])
+            }
+        }
+    }
+
+    while (m > 0 && n > 0) {
+        when {
+            first[m-1] == second[n - 1] -> {
+                answer = first[m - 1] + answer
+                m--
+                n--
+            }
+            matrix[m][n] == matrix[m - 1][n] -> m--
+            else -> n--
+        }
+    }
+
+    return answer
 }
 
 /**

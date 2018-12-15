@@ -37,6 +37,7 @@ abstract class AbstractGraphTests {
         }.build()
         val loop = graph.findEulerLoop()
         loop.assert(true, graph)
+
         val graph2 = GraphBuilder().apply {
             val a = addVertex("A")
             val b = addVertex("B")
@@ -65,7 +66,26 @@ abstract class AbstractGraphTests {
         }.build()
         val loop2 = graph2.findEulerLoop()
         loop2.assert(true, graph2)
+
+        val graph3 = GraphBuilder().apply {
+            val a = addVertex("A")
+            val b = addVertex("B")
+            val c = addVertex("C")
+            val d = addVertex("D")
+            val e = addVertex("E")
+            val f = addVertex("F")
+            addConnection(a, b)
+            addConnection(b, c)
+            addConnection(c, d)
+            addConnection(d, e)
+            addConnection(e, f)
+            addConnection(f, a)
+        }.build()
+        val loop3 = graph3.findEulerLoop()
+        loop3.assert(true, graph3)
     }
+
+
 
     fun minimumSpanningTree(minimumSpanningTree: Graph.() -> Graph) {
         val graph = GraphBuilder().apply {
@@ -135,6 +155,26 @@ abstract class AbstractGraphTests {
         val independent = graph.largestIndependentVertexSet()
         assertEquals(setOf(graph["A"], graph["D"], graph["E"], graph["F"], graph["G"], graph["J"]),
                 independent)
+
+        val graph1 = GraphBuilder().apply {
+            val a = addVertex("A")
+            val b = addVertex("B")
+            val c = addVertex("C")
+            val d = addVertex("D")
+            addConnection(a, b)
+            addConnection(b, c)
+            addConnection(c, d)
+        }.build()
+        val independent1 = graph1.largestIndependentVertexSet()
+        assertEquals(setOf(graph["A"], graph["C"]),
+                independent1)
+
+        val graph2 = GraphBuilder().apply {
+            val a = addVertex("A")
+        }.build()
+        val independent2 = graph2.largestIndependentVertexSet()
+        assertEquals(setOf(graph["A"]),
+                independent2)
     }
 
     fun longestSimplePath(longestSimplePath: Graph.() -> Path) {
