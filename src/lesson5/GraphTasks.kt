@@ -148,6 +148,11 @@ fun Graph.minimumSpanningTree(): Graph {
  *
  * Эта задача может быть зачтена за пятый и шестой урок одновременно
  */
+
+/**
+* T = O(V+E), где E - ребра графа, V - вершины графа
+* R = O(V)
+ */
 fun Graph.largestIndependentVertexSet(): Set<Graph.Vertex> {
 
     val startVertex = this.vertices.first()
