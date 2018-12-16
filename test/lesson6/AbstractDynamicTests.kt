@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 abstract class AbstractDynamicTests {
     fun longestCommonSubSequence(longestCommonSubSequence: (String, String) -> String) {
         assertEquals("", longestCommonSubSequence("", ""))
-        assertEquals("", longestCommonSubSequence("АААА", "аааа"))
+        assertEquals("", longestCommonSubSequence("ААААААА", "ааааааа"))
         assertEquals("", longestCommonSubSequence("мой мир", "я"))
         assertEquals("1", longestCommonSubSequence("1", "1"))
         assertEquals("13", longestCommonSubSequence("123", "13"))
@@ -46,6 +46,7 @@ abstract class AbstractDynamicTests {
                 23, 76, 34, 93, 123, 21, 56, 87, 91, 12, 45, 98, 140, 12, 5, 38, 349, 65, 94,
                 45, 76, 15, 99, 100, 88, 84, 35, 88
         )))
+        assertEquals(listOf(2, 4, 6, 10), longestIncreasingSubSequence(listOf(2, 1, 4, 3, 6, 5, 10)))
     }
 
     fun shortestPathOnField(shortestPathOnField: (String) -> Int) {
